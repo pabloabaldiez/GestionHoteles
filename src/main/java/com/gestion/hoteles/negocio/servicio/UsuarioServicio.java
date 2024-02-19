@@ -15,7 +15,7 @@ public class UsuarioServicio {
     private UsuarioRepositorio usuarioRepositorio;
 
 
-    public Usuario save(Usuario usuario){
+    public Usuario guardar(Usuario usuario){
 
         Usuario nuevoUsuario=usuario;
 
