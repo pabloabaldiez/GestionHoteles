@@ -8,10 +8,10 @@ import lombok.Data;
 @Builder
 public class UsuarioDTO {
 
-    private Long id;
-    private String username;
-    private String nombre;
-    private String apellido;
-    private String rol;
+    final Long id;
+    final String username;
+    final String nombre;
+    final String apellido;
+    final String rol;
 
 }
