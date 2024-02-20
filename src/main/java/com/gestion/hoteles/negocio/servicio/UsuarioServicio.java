@@ -23,7 +23,7 @@ public class UsuarioServicio {
 
     }
 
-    public List<Usuario> listaUsuarios(){
+    public List<Usuario> listaUsuario(){
 
         return usuarioRepositorio.findAll();
     }
