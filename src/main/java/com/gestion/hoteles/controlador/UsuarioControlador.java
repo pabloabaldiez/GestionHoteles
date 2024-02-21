@@ -15,12 +15,13 @@ public class UsuarioControlador {
 
     @Autowired
     UsuarioServicio servicio;
+
     @PostMapping("/guardar")
     public ResponseEntity<Usuario> guardarUsuario(@RequestBody Usuario usuario){
 
         Usuario usuarioNuevo=  servicio.guardar(usuario);
 
-       return ResponseEntity.ok(usuario);
+       return ResponseEntity.ok(usuarioNuevo);
     }
 
     @GetMapping("/lista")
@@ -29,12 +30,9 @@ public class UsuarioControlador {
         List<Usuario> lista = servicio.listaUsuario();
 
         if (lista.isEmpty()) {
-
             return ResponseEntity.noContent().build();
         }
-
         return ResponseEntity.ok(lista);
-
     }
 
 
