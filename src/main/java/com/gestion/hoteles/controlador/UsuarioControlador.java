@@ -44,8 +44,12 @@ public class UsuarioControlador {
         return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
     }
 
+    @GetMapping("/busqueda-dni/{dni}")
+    public ResponseEntity<Usuario> busquedaPorDni(@PathVariable("dni")int dni){
 
+        Usuario usuario=servicio.buscaUsuarioPorDni(dni);
 
-
+        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+    }
 
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -24,9 +25,11 @@ public class UsuarioServicio {
         if(usuarioRepositorio.existsByEmail(usuario.getEmail()))
             throw new ExcepcionUsuario("Ya existe ese email");
 
-        Usuario nuevoUsuario=usuarioRepositorio.save(usuario);
+        if(usuarioRepositorio.existsByDni(usuario.getDni()))
+            throw new ExcepcionUsuario("Ya existe ese DNI");
 
-        return nuevoUsuario;
+
+        return usuarioRepositorio.save(usuario);
 
     }
 
@@ -44,6 +47,14 @@ public class UsuarioServicio {
 
         if(usuario==null)
             throw new ExcepcionUsuario("No existe un usuario con ese id");
+
+        return usuario;
+    }
+
+    public Usuario buscaUsuarioPorDni(int dni){
+
+        Usuario usuario = usuarioRepositorio.findByDni(dni).orElseThrow(() -> new ExcepcionUsuario("No existe un usuario con ese DNI"));
+
 
         return usuario;
     }

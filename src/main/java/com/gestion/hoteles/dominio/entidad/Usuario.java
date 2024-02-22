@@ -33,6 +33,10 @@ public class Usuario {
     private String email;
 
     @Getter@Setter
+    @Column(name = "dni")
+    private int dni;
+
+    @Getter@Setter
     @Column(name = "rol")
     private String rol;
 
