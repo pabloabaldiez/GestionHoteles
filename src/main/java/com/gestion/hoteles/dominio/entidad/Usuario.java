@@ -13,8 +13,8 @@ public class Usuario {
     private int id;
 
     @Getter@Setter
-    @Column(name = "usuario")
-    private String usuario;
+    @Column(name = "username")
+    private String username;
 
     @Getter@Setter
     @Column(name = "password")
@@ -27,6 +27,10 @@ public class Usuario {
     @Getter@Setter
     @Column(name = "apellido")
     private String apellido;
+
+    @Getter@Setter
+    @Column(name = "email")
+    private String email;
 
     @Getter@Setter
     @Column(name = "rol")
