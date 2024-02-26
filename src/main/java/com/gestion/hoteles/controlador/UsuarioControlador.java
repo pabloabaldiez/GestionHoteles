@@ -33,7 +33,7 @@ public class UsuarioControlador {
         if (lista.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return new ResponseEntity<List<Usuario>>(lista, HttpStatus.OK);
+        return new ResponseEntity<List<Usuario>>(lista, HttpStatus.OK) ;
     }
 
     @GetMapping("/busqueda-id/{id}")
