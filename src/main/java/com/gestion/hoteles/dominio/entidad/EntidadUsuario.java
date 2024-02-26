@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -45,5 +47,8 @@ public class EntidadUsuario {
 
     @Column(name = "rol")
     private String rol;
+
+    @ManyToMany(fetch = FetchType.EAGER, targetEntity = EntidadUsuario.class, cascade = CascadeType.PERSIST)
+    private Set<EntidadRoles> roles;
 
 }
