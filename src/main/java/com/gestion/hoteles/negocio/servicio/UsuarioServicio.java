@@ -1,13 +1,12 @@
 package com.gestion.hoteles.negocio.servicio;
 
-import com.gestion.hoteles.dominio.entidad.Usuario;
+import com.gestion.hoteles.dominio.entidad.EntidadUsuario;
 import com.gestion.hoteles.dominio.excepciones.ExcepcionUsuario;
 import com.gestion.hoteles.persistencia.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -17,23 +16,23 @@ public class UsuarioServicio {
     private UsuarioRepositorio usuarioRepositorio;
 
 
-    public Usuario guardar(Usuario usuario){
+    public EntidadUsuario guardar(EntidadUsuario entidadUsuario){
 
-        if(usuarioRepositorio.existsByUsername(usuario.getUsername()))
+        if(usuarioRepositorio.existsByUsername(entidadUsuario.getUsername()))
             throw new ExcepcionUsuario("Ya existe  ese nombre de usuario");
 
-        if(usuarioRepositorio.existsByEmail(usuario.getEmail()))
+        if(usuarioRepositorio.existsByEmail(entidadUsuario.getEmail()))
             throw new ExcepcionUsuario("Ya existe ese email");
 
-        if(usuarioRepositorio.existsByDni(usuario.getDni()))
+        if(usuarioRepositorio.existsByDni(entidadUsuario.getDni()))
             throw new ExcepcionUsuario("Ya existe ese DNI");
 
 
-        return usuarioRepositorio.save(usuario);
+        return usuarioRepositorio.save(entidadUsuario);
 
     }
 
-    public List<Usuario> listaUsuario(){
+    public List<EntidadUsuario> listaUsuario(){
 
         if(usuarioRepositorio.findAll().isEmpty())
             throw new ExcepcionUsuario("No hay usuarios en la lista");
@@ -41,22 +40,22 @@ public class UsuarioServicio {
         return usuarioRepositorio.findAll();
     }
 
-    public Usuario buscaUsuarioPorId(int id){
+    public EntidadUsuario buscaUsuarioPorId(int id){
 
-        Usuario usuario=usuarioRepositorio.findById(id).orElse(null);
+        EntidadUsuario entidadUsuario =usuarioRepositorio.findById(id).orElse(null);
 
-        if(usuario==null)
+        if(entidadUsuario ==null)
             throw new ExcepcionUsuario("No existe un usuario con ese id");
 
-        return usuario;
+        return entidadUsuario;
     }
 
-    public Usuario buscaUsuarioPorDni(int dni){
+    public EntidadUsuario buscaUsuarioPorDni(int dni){
 
-        Usuario usuario = usuarioRepositorio.findByDni(dni).orElseThrow(() -> new ExcepcionUsuario("No existe un usuario con ese DNI"));
+        EntidadUsuario entidadUsuario = usuarioRepositorio.findByDni(dni).orElseThrow(() -> new ExcepcionUsuario("No existe un usuario con ese DNI"));
 
 
-        return usuario;
+        return entidadUsuario;
     }
 
 

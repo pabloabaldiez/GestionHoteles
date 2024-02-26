@@ -1,42 +1,48 @@
 package com.gestion.hoteles.dominio.entidad;
 
 import jakarta.persistence.*;
-//import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder //implementa el patron de diseño builder para construir objetos de esa clase
 @Entity(name= "usuario")
-public class Usuario {
+public class EntidadUsuario {
 
-    @Id @Getter @Setter
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Getter@Setter
+    @NotBlank
+    @Size(max=30)
     @Column(name = "username")
     private String username;
 
-    @Getter@Setter
+    @NotBlank
     @Column(name = "password")
     private String password;
 
-    @Getter@Setter
+
     @Column(name = "nombre")
     private String nombre;
 
-    @Getter@Setter
+
     @Column(name = "apellido")
     private String apellido;
 
-    @Getter@Setter
+    @Email
+    @NotBlank
+    @Size(max=80)
     @Column(name = "email")
     private String email;
 
-    @Getter@Setter
     @Column(name = "dni")
     private int dni;
 
-    @Getter@Setter
     @Column(name = "rol")
     private String rol;
 

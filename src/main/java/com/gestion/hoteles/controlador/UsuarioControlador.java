@@ -1,6 +1,6 @@
 package com.gestion.hoteles.controlador;
 
-import com.gestion.hoteles.dominio.entidad.Usuario;
+import com.gestion.hoteles.dominio.entidad.EntidadUsuario;
 import com.gestion.hoteles.negocio.servicio.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -21,38 +20,38 @@ public class UsuarioControlador {
     UsuarioServicio servicio;
 
     @PostMapping("/guardar")
-    public ResponseEntity<Usuario> guardarUsuario(@RequestBody Usuario usuario){
+    public ResponseEntity<EntidadUsuario> guardarUsuario(@RequestBody EntidadUsuario entidadUsuario){
 
-        Usuario usuarioNuevo=  servicio.guardar(usuario);
+        EntidadUsuario entidadUsuarioNuevo =  servicio.guardar(entidadUsuario);
 
-        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+        return new ResponseEntity<EntidadUsuario>(entidadUsuario, HttpStatus.OK);
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<List<Usuario>> lista() {
+    public ResponseEntity<List<EntidadUsuario>> lista() {
 
-        List<Usuario> lista = servicio.listaUsuario();
+        List<EntidadUsuario> lista = servicio.listaUsuario();
 
         if (lista.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return new ResponseEntity<List<Usuario>>(lista, HttpStatus.OK);
+        return new ResponseEntity<List<EntidadUsuario>>(lista, HttpStatus.OK);
     }
 
     @GetMapping("/busqueda-id/{id}")
-    public ResponseEntity<Usuario> busquedaPorId(@PathVariable("id")int id){
+    public ResponseEntity<EntidadUsuario> busquedaPorId(@PathVariable("id")int id){
 
-        Usuario usuario=servicio.buscaUsuarioPorId(id);
+        EntidadUsuario entidadUsuario =servicio.buscaUsuarioPorId(id);
 
-        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+        return new ResponseEntity<EntidadUsuario>(entidadUsuario, HttpStatus.OK);
     }
 
     @GetMapping("/busqueda-dni/{dni}")
-    public ResponseEntity<Usuario> busquedaPorDni(@PathVariable("dni")int dni){
+    public ResponseEntity<EntidadUsuario> busquedaPorDni(@PathVariable("dni")int dni){
 
-        Usuario usuario=servicio.buscaUsuarioPorDni(dni);
+        EntidadUsuario entidadUsuario =servicio.buscaUsuarioPorDni(dni);
 
-        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+        return new ResponseEntity<EntidadUsuario>(entidadUsuario, HttpStatus.OK);
     }
 
     //TESTEOS DE SEGURIDAD
