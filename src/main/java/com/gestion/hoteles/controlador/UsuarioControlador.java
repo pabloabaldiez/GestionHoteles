@@ -1,6 +1,6 @@
 package com.gestion.hoteles.controlador;
 
-import com.gestion.hoteles.dominio.entidad.EntidadUsuario;
+import com.gestion.hoteles.dominio.entidad.Usuario;
 import com.gestion.hoteles.negocio.servicio.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,38 +20,38 @@ public class UsuarioControlador {
     UsuarioServicio servicio;
 
     @PostMapping("/guardar")
-    public ResponseEntity<EntidadUsuario> guardarUsuario(@RequestBody EntidadUsuario entidadUsuario){
+    public ResponseEntity<Usuario> guardarUsuario(@RequestBody Usuario usuario){
 
-        EntidadUsuario entidadUsuarioNuevo =  servicio.guardar(entidadUsuario);
+        Usuario usuarioNuevo =  servicio.guardar(usuario);
 
-        return new ResponseEntity<EntidadUsuario>(entidadUsuario, HttpStatus.OK);
+        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<List<EntidadUsuario>> lista() {
+    public ResponseEntity<List<Usuario>> lista() {
 
-        List<EntidadUsuario> lista = servicio.listaUsuario();
+        List<Usuario> lista = servicio.listaUsuario();
 
         if (lista.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return new ResponseEntity<List<EntidadUsuario>>(lista, HttpStatus.OK);
+        return new ResponseEntity<List<Usuario>>(lista, HttpStatus.OK);
     }
 
     @GetMapping("/busqueda-id/{id}")
-    public ResponseEntity<EntidadUsuario> busquedaPorId(@PathVariable("id")int id){
+    public ResponseEntity<Usuario> busquedaPorId(@PathVariable("id")int id){
 
-        EntidadUsuario entidadUsuario =servicio.buscaUsuarioPorId(id);
+        Usuario usuario =servicio.buscaUsuarioPorId(id);
 
-        return new ResponseEntity<EntidadUsuario>(entidadUsuario, HttpStatus.OK);
+        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
     }
 
     @GetMapping("/busqueda-dni/{dni}")
-    public ResponseEntity<EntidadUsuario> busquedaPorDni(@PathVariable("dni")int dni){
+    public ResponseEntity<Usuario> busquedaPorDni(@PathVariable("dni")int dni){
 
-        EntidadUsuario entidadUsuario =servicio.buscaUsuarioPorDni(dni);
+        Usuario usuario =servicio.buscaUsuarioPorDni(dni);
 
-        return new ResponseEntity<EntidadUsuario>(entidadUsuario, HttpStatus.OK);
+        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
     }
 
     //TESTEOS DE SEGURIDAD

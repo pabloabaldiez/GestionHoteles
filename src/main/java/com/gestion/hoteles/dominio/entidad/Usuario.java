@@ -13,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder //implementa el patron de diseño builder para construir objetos de esa clase
 @Entity(name= "usuario")
-public class EntidadUsuario {
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,7 +48,10 @@ public class EntidadUsuario {
     @Column(name = "rol")
     private String rol;
 
-    @ManyToMany(fetch = FetchType.EAGER, targetEntity = EntidadUsuario.class, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Usuario.class, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "usuario_roles",     //Esta es la tabla intermedia, la normalizacion.
+            joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))     //claves foraneas de las dos entidades
+
     private Set<EntidadRoles> roles;
 
 }
