@@ -1,6 +1,6 @@
 package com.gestion.hoteles.dominio.entidad;
 
-public enum Erole {
+public enum Erol {
     ADMIN,
     USUARIO,
     INVITADO

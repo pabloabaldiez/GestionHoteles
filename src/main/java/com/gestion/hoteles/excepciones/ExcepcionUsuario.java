@@ -1,4 +1,4 @@
-package com.gestion.hoteles.dominio.excepciones;
+package com.gestion.hoteles.excepciones;
 
 
 public class ExcepcionUsuario extends RuntimeException{

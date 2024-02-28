@@ -1,4 +1,4 @@
-package com.gestion.hoteles.dominio.excepciones;
+package com.gestion.hoteles.excepciones;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -50,7 +50,7 @@ public class Usuario {
 
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = Usuario.class, cascade = CascadeType.PERSIST)
     @JoinTable(name = "usuario_roles",     //Esta es la tabla intermedia, la normalizacion.
-            joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))     //claves foraneas de las dos entidades
+            joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"))     //claves foraneas de las dos entidades
 
     private Set<EntidadRoles> roles;
 

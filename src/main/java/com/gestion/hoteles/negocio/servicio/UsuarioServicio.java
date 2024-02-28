@@ -1,7 +1,7 @@
 package com.gestion.hoteles.negocio.servicio;
 
 import com.gestion.hoteles.dominio.entidad.Usuario;
-import com.gestion.hoteles.dominio.excepciones.ExcepcionUsuario;
+import com.gestion.hoteles.excepciones.ExcepcionUsuario;
 import com.gestion.hoteles.persistencia.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
