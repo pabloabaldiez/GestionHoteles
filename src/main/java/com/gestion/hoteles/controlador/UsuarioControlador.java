@@ -54,7 +54,7 @@ public class UsuarioControlador {
         return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
     }
 
-    //TESTEOS DE SEGURIDAD
+    //**TESTEOS DE SEGURIDAD**
     @Autowired
     private SessionRegistry sessionRegistry;
 
