@@ -62,7 +62,7 @@ public class UsuarioControlador {
     public ResponseEntity<?> detallesSesion(){
 
         String sesionId="";
-        User user=null;             //User viene definido en Spring y representa a un usuario
+        User user=null;             // User viene definido en Spring y representa a un usuario
 
         List<Object> sesiones=sessionRegistry.getAllPrincipals();
 
