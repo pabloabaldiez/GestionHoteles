@@ -1,7 +1,11 @@
 package com.gestion.hoteles.controlador;
 
+import com.gestion.hoteles.dominio.dto.UsuarioDTO;
+import com.gestion.hoteles.dominio.entidad.EntidadRoles;
+import com.gestion.hoteles.dominio.entidad.RolEnum;
 import com.gestion.hoteles.dominio.entidad.Usuario;
 import com.gestion.hoteles.negocio.servicio.UsuarioServicio;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +15,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/usuario")
@@ -24,8 +29,36 @@ public class UsuarioControlador {
 
         Usuario usuarioNuevo =  servicio.guardar(usuario);
 
+        return new ResponseEntity<Usuario>(usuarioNuevo, HttpStatus.OK);
+    }
+
+
+    //***********************PRUEBA*****************************//
+    @PostMapping("/guardar2")
+    public ResponseEntity<Usuario> guardarUsuario2(@Valid @RequestBody UsuarioDTO usuarioDTO){
+
+        Set<EntidadRoles> rolesUsuario = usuarioDTO.getRoles().stream()
+                .map(rol -> EntidadRoles.builder()
+                        .name(RolEnum.valueOf(rol))
+                        .build())
+                .collect(Collectors.toSet());
+                ;
+
+        Usuario usuario =  Usuario.builder()
+                .username(usuarioDTO.getUsername())
+                .password(usuarioDTO.getUsername())
+                .email(usuarioDTO.getEmail())
+                .nombre(usuarioDTO.getNombre())
+                .apellido(usuarioDTO.getApellido())
+                .roles(rolesUsuario)
+                .build();
+
+        servicio.guardar(usuario);
+
         return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
     }
+    //***********************PRUEBA*****************************//
+
 
     @GetMapping("/lista")
     public ResponseEntity<List<Usuario>> lista() {
