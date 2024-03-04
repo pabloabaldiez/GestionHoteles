@@ -6,11 +6,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -47,6 +49,7 @@ public class ConfiguracionSeguridad {
 
                             //COMPORTAMIENTO DE ACESO A ENDPOINTS y Autenticacion
         return httpSecurity
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/usuario/lista").permitAll(); //endpoint publico
                     auth.anyRequest().authenticated(); //cualquier otro sera autenticado
@@ -63,7 +66,7 @@ public class ConfiguracionSeguridad {
 
 
 
-    //Al iniciar sesion me redirige a este endpoint
+   /* //Al iniciar sesion me redirige a este endpoint
     public AuthenticationSuccessHandler successHandler() {
         return ((req, response, authentication) -> {
             response.sendRedirect("/usuario/sesion");
@@ -74,7 +77,7 @@ public class ConfiguracionSeguridad {
     @Bean //ESTE METODO me ayuda a recuperar los datos de la sesion
     public SessionRegistry sessionRegistry(){
         return new SessionRegistryImpl();
-    }
+    }*/
 
 
     //Usuario de acceso con permisos para la aplicacion
@@ -94,7 +97,7 @@ public class ConfiguracionSeguridad {
 
     @Bean
     PasswordEncoder passwordEncoder(){
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
 

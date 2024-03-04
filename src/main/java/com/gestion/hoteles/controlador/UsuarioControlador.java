@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.session.SessionInformation;
 //import org.springframework.security.core.session.SessionRegistry;
 //import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -23,6 +24,9 @@ public class UsuarioControlador {
 
     @Autowired
     UsuarioServicio servicio;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/guardar")
     public ResponseEntity<Usuario> guardarUsuario2(@Valid @RequestBody UsuarioDTO usuarioDTO){
@@ -36,7 +40,7 @@ public class UsuarioControlador {
 
         Usuario usuario =  Usuario.builder()
                 .username(usuarioDTO.getUsername())
-                .password(usuarioDTO.getUsername())
+                .password(passwordEncoder.encode(usuarioDTO.getUsername()))
                 .email(usuarioDTO.getEmail())
                 .nombre(usuarioDTO.getNombre())
                 .apellido(usuarioDTO.getApellido())
