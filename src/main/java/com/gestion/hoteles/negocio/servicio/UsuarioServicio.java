@@ -60,6 +60,15 @@ public class UsuarioServicio {
 
 
 
+    public void eliminaUsuario(int id){
+
+        usuarioRepositorio.deleteById(id);
+
+
+
+
+
+
 
 
 }

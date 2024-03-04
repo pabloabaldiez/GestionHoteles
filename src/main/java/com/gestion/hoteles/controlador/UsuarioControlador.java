@@ -39,7 +39,7 @@ public class UsuarioControlador {
 
         Set<EntidadRoles> rolesUsuario = usuarioDTO.getRoles().stream()
                 .map(rol -> EntidadRoles.builder()
-                        .name(RolEnum.valueOf(rol))
+                        .tiposRol(RolEnum.valueOf(rol))
                         .build())
                 .collect(Collectors.toSet());
                 ;
@@ -57,6 +57,17 @@ public class UsuarioControlador {
 
         return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
     }
+
+    @DeleteMapping("/eliminar/{id}")
+    public String eliminarUsuario(@RequestParam("id") String id){
+
+        servicio.eliminaUsuario(Integer.parseInt(id));
+
+        return "Se ha eliminado el usuario con id".concat(id);
+
+    }
+
+
     //***********************PRUEBA*****************************//
 
 

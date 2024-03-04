@@ -39,6 +39,8 @@ public class ConfiguracionSeguridad {
                 .build();
     }
 
+
+    //Al iniciar sesion me redirige a este endpoint
     public AuthenticationSuccessHandler successHandler() {
         return ((req, response, authentication) -> {
             response.sendRedirect("/usuario/sesion");
