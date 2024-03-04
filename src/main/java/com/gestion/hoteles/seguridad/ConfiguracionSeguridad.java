@@ -1,12 +1,19 @@
-/*package com.gestion.hoteles.seguridad;
+package com.gestion.hoteles.seguridad;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -15,7 +22,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 public class ConfiguracionSeguridad {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
+       /* return httpSecurity
                 .authorizeHttpRequests(auth ->{
                     auth.requestMatchers("/usuario/lista").permitAll();
                     auth.anyRequest().authenticated();
@@ -36,8 +43,24 @@ public class ConfiguracionSeguridad {
                 .and()
                 .httpBasic()
                 .and()
+                .build();*/
+
+                            //COMPORTAMIENTO DE ACESO A ENDPOINTS y Autenticacion
+        return httpSecurity
+                .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/usuario/lista").permitAll(); //endpoint publico
+                    auth.anyRequest().authenticated(); //cualquier otro sera autenticado
+                })
+                .sessionManagement(sesion -> {
+                    sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                })
+                .httpBasic()
+                .and()
                 .build();
+
     }
+
+
 
 
     //Al iniciar sesion me redirige a este endpoint
@@ -53,7 +76,43 @@ public class ConfiguracionSeguridad {
         return new SessionRegistryImpl();
     }
 
+
+    //Usuario de acceso con permisos para la aplicacion
+    @Bean
+    UserDetailsService userDetailsService(){
+        InMemoryUserDetailsManager manager =new InMemoryUserDetailsManager();
+        manager.createUser(User.withUsername("pablo")
+                .password("123")
+                .roles()
+                .build());
+
+        return  manager;
+
+    }
+
+
+
+    @Bean
+    PasswordEncoder passwordEncoder(){
+        return NoOpPasswordEncoder.getInstance();
+    }
+
+
+    //ADMINISTRA LA AUTENTICACION Y EXIJE UN PASSWORD ENCODER
+    @Bean
+    AuthenticationManager authenticationManager(HttpSecurity httpSecurity,
+                                                PasswordEncoder passwordEncoder) throws Exception {
+
+
+
+        return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(userDetailsService())
+                .passwordEncoder(passwordEncoder)
+                .and()
+                .build();
+    }
+
+
 }
 
 
-*/
