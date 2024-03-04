@@ -44,7 +44,7 @@ public class Usuario {
     private String email;
 
     @Column(name = "dni")
-    private int dni;   //CAMBIAR A STRING
+    private String dni;   //CAMBIAR A STRING
 
 
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = EntidadRoles.class, cascade = CascadeType.PERSIST)

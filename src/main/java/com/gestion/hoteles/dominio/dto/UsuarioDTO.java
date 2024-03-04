@@ -30,6 +30,8 @@ public class UsuarioDTO {
 
     private String apellido;
 
+    private String dni;
+
     private Set<String> roles;
 
 }

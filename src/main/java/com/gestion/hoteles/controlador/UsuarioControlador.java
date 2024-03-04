@@ -25,16 +25,6 @@ public class UsuarioControlador {
     UsuarioServicio servicio;
 
     @PostMapping("/guardar")
-    public ResponseEntity<Usuario> guardarUsuario(@RequestBody Usuario usuario){
-
-        Usuario usuarioNuevo =  servicio.guardar(usuario);
-
-        return new ResponseEntity<Usuario>(usuarioNuevo, HttpStatus.OK);
-    }
-
-
-    //***********************PRUEBA*****************************//
-    @PostMapping("/guardar2")
     public ResponseEntity<Usuario> guardarUsuario2(@Valid @RequestBody UsuarioDTO usuarioDTO){
 
         Set<EntidadRoles> rolesUsuario = usuarioDTO.getRoles().stream()
@@ -50,6 +40,7 @@ public class UsuarioControlador {
                 .email(usuarioDTO.getEmail())
                 .nombre(usuarioDTO.getNombre())
                 .apellido(usuarioDTO.getApellido())
+                .dni(usuarioDTO.getDni())
                 .roles(rolesUsuario)
                 .build();
 
@@ -58,17 +49,15 @@ public class UsuarioControlador {
         return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
     }
 
+
     @DeleteMapping("/eliminar")
     public String eliminarUsuario(@RequestParam String id){
 
         servicio.eliminaUsuario(Integer.parseInt(id));
 
-        return "Se ha eliminado el usuario con id".concat(id);
+        return "Se ha eliminado el usuario con id ".concat(id);
 
     }
-
-
-    //***********************PRUEBA*****************************//
 
 
     @GetMapping("/lista")
