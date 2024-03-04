@@ -1,4 +1,4 @@
-package com.gestion.hoteles.seguridad;
+/*package com.gestion.hoteles.seguridad;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,3 +56,4 @@ public class ConfiguracionSeguridad {
 }
 
 
+*/

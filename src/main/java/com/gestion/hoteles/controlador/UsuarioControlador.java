@@ -9,9 +9,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.session.SessionInformation;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.userdetails.User;
+//import org.springframework.security.core.session.SessionInformation;
+//import org.springframework.security.core.session.SessionRegistry;
+//import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -42,7 +42,7 @@ public class UsuarioControlador {
                         .tiposRol(RolEnum.valueOf(rol))
                         .build())
                 .collect(Collectors.toSet());
-                ;
+
 
         Usuario usuario =  Usuario.builder()
                 .username(usuarioDTO.getUsername())
@@ -58,8 +58,8 @@ public class UsuarioControlador {
         return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
     }
 
-    @DeleteMapping("/eliminar/{id}")
-    public String eliminarUsuario(@RequestParam("id") String id){
+    @DeleteMapping("/eliminar")
+    public String eliminarUsuario(@RequestParam String id){
 
         servicio.eliminaUsuario(Integer.parseInt(id));
 
@@ -99,7 +99,7 @@ public class UsuarioControlador {
     }
 
     //TESTEOS DE SEGURIDAD
-    @Autowired
+    /*@Autowired
     private SessionRegistry sessionRegistry;
 
     @GetMapping("/sesion")
@@ -127,6 +127,6 @@ public class UsuarioControlador {
         response.put("user", user);
 
         return ResponseEntity.ok(response);
-    }
+    }*/
 
 }

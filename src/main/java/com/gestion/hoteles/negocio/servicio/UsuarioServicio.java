@@ -60,11 +60,11 @@ public class UsuarioServicio {
 
 
 
-    public void eliminaUsuario(int id){
+    public void eliminaUsuario(int id) {
 
         usuarioRepositorio.deleteById(id);
 
-
+    }
 
 
 
