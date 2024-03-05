@@ -1,5 +1,7 @@
 package com.gestion.hoteles.seguridad;
 
+import com.gestion.hoteles.negocio.servicio.UsuarioDetallesServImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +24,10 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @Configuration
 @EnableWebSecurity
 public class ConfiguracionSeguridad {
+
+    @Autowired
+    UsuarioDetallesServImpl usuarioDetallesServ;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
        /* return httpSecurity
@@ -109,7 +115,7 @@ public class ConfiguracionSeguridad {
 
 
         return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(userDetailsService())
+                .userDetailsService(usuarioDetallesServ)
                 .passwordEncoder(passwordEncoder)
                 .and()
                 .build();
