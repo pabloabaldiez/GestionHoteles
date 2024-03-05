@@ -10,6 +10,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -74,11 +76,23 @@ public class FiltroAutenticacionJwt extends UsernamePasswordAuthenticationFilter
 
         //Respondo a la solicitud del token
         response.addHeader("Autorizacion", token);
+
         Map<String, Object> httpResponse = new HashMap<>();
         httpResponse.put("token", token);
         httpResponse.put("Mensaje", "Autenticacion correcta");
         httpResponse.put("Username", user.getUsername());
 
+        //Transformo y envio como respuesta el Map anterior pero en Json
+        response.getWriter().write(new ObjectMapper().writeValueAsString(httpResponse));
+
+        //Status de la respuesta
+        response.setStatus(HttpStatus.OK.value());
+
+        //Cual va a ser el contenido de la respuesta
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+        //Para garantizar que se escriba bientodo el contenido
+        response.getWriter().flush();
 
         super.successfulAuthentication(request, response, chain, authResult);
     }
