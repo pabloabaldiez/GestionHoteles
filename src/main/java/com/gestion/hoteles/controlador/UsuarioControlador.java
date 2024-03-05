@@ -91,10 +91,10 @@ public class UsuarioControlador {
         return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
     }
 
-<<<<<<< HEAD
+
     //***TESTEOS DE SEGURIDAD***//
-    @Autowired
-=======
+
+
     //TESTEOS DE SEGURIDAD
     /*@Autowired
 >>>>>>> estructura-y-bbdd
