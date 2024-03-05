@@ -81,7 +81,7 @@ public class ConfiguracionSeguridad {
 
 
     //Usuario de acceso con permisos para la aplicacion
-    @Bean
+    /*@Bean
     UserDetailsService userDetailsService(){
         InMemoryUserDetailsManager manager =new InMemoryUserDetailsManager();
         manager.createUser(User.withUsername("pablo")
@@ -91,7 +91,7 @@ public class ConfiguracionSeguridad {
 
         return  manager;
 
-    }
+    }*/
 
 
 
