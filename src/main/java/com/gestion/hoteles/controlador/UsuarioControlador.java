@@ -1,16 +1,22 @@
 package com.gestion.hoteles.controlador;
 
+import com.gestion.hoteles.dominio.dto.UsuarioDTO;
+import com.gestion.hoteles.dominio.entidad.EntidadRoles;
+import com.gestion.hoteles.dominio.entidad.RolEnum;
 import com.gestion.hoteles.dominio.entidad.Usuario;
 import com.gestion.hoteles.negocio.servicio.UsuarioServicio;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.session.SessionInformation;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.userdetails.User;
+//import org.springframework.security.core.session.SessionInformation;
+//import org.springframework.security.core.session.SessionRegistry;
+//import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/usuario")
@@ -19,13 +25,44 @@ public class UsuarioControlador {
     @Autowired
     UsuarioServicio servicio;
 
-    @PostMapping("/guardar")
-    public ResponseEntity<Usuario> guardarUsuario(@RequestBody Usuario usuario){
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-        Usuario usuarioNuevo =  servicio.guardar(usuario);
+    @PostMapping("/guardar")
+    public ResponseEntity<Usuario> guardarUsuario2(@Valid @RequestBody UsuarioDTO usuarioDTO){
+
+        Set<EntidadRoles> rolesUsuario = usuarioDTO.getRoles().stream()
+                .map(rol -> EntidadRoles.builder()
+                        .tiposRol(RolEnum.valueOf(rol))
+                        .build())
+                .collect(Collectors.toSet());
+
+
+        Usuario usuario =  Usuario.builder()
+                .username(usuarioDTO.getUsername())
+                .password(passwordEncoder.encode(usuarioDTO.getUsername()))
+                .email(usuarioDTO.getEmail())
+                .nombre(usuarioDTO.getNombre())
+                .apellido(usuarioDTO.getApellido())
+                .dni(usuarioDTO.getDni())
+                .roles(rolesUsuario)
+                .build();
+
+        servicio.guardar(usuario);
 
         return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
     }
+
+
+    @DeleteMapping("/eliminar")
+    public String eliminarUsuario(@RequestParam String id){
+
+        servicio.eliminaUsuario(Integer.parseInt(id));
+
+        return "Se ha eliminado el usuario con id ".concat(id);
+
+    }
+
 
     @GetMapping("/lista")
     public ResponseEntity<List<Usuario>> lista() {
@@ -54,8 +91,13 @@ public class UsuarioControlador {
         return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
     }
 
+<<<<<<< HEAD
     //***TESTEOS DE SEGURIDAD***//
     @Autowired
+=======
+    //TESTEOS DE SEGURIDAD
+    /*@Autowired
+>>>>>>> estructura-y-bbdd
     private SessionRegistry sessionRegistry;
 
     @GetMapping("/sesion")
@@ -83,6 +125,6 @@ public class UsuarioControlador {
         response.put("user", user);
 
         return ResponseEntity.ok(response);
-    }
+    }*/
 
 }
