@@ -1,6 +1,8 @@
 package com.gestion.hoteles.seguridad;
 
 import com.gestion.hoteles.negocio.servicio.UsuarioDetallesServImpl;
+import com.gestion.hoteles.seguridad.filtros.FiltroAutenticacionJwt;
+import com.gestion.hoteles.seguridad.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +30,13 @@ public class ConfiguracionSeguridad {
     @Autowired
     UsuarioDetallesServImpl usuarioDetallesServ;
 
+    @Autowired
+    JwtUtils jwtUtils;
+
+    FiltroAutenticacionJwt filtroAutenticacionJwt=new FiltroAutenticacionJwt(jwtUtils);
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
        /* return httpSecurity
                 .authorizeHttpRequests(auth ->{
                     auth.requestMatchers("/usuario/lista").permitAll();
@@ -53,6 +60,10 @@ public class ConfiguracionSeguridad {
                 .and()
                 .build();*/
 
+
+
+        filtroAutenticacionJwt.setAuthenticationManager(authenticationManager);
+
                             //COMPORTAMIENTO DE ACESO A ENDPOINTS y Autenticacion
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
@@ -63,8 +74,7 @@ public class ConfiguracionSeguridad {
                 .sessionManagement(sesion -> {
                     sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
-                .httpBasic()
-                .and()
+                .addFilter(filtroAutenticacionJwt)//Reemplazo el httpBasic()
                 .build();
 
     }
@@ -119,6 +129,12 @@ public class ConfiguracionSeguridad {
                 .passwordEncoder(passwordEncoder)
                 .and()
                 .build();
+    }
+
+
+    public  static  void main(String[] args){
+
+        System.out.println(new BCryptPasswordEncoder().encode("123"));
     }
 
 

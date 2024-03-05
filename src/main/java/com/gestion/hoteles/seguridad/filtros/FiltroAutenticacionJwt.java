@@ -24,8 +24,12 @@ import java.util.Map;
 
 public class FiltroAutenticacionJwt extends UsernamePasswordAuthenticationFilter {
 
-    @Autowired
+
     private JwtUtils jwtUtils;
+
+    public FiltroAutenticacionJwt(JwtUtils jwtUtils){
+        this.jwtUtils=jwtUtils;
+    };
 
     //Cuando se intentan autenticar que se hace
     @Override
