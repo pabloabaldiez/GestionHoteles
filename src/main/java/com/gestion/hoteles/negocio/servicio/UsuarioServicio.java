@@ -18,7 +18,7 @@ public class UsuarioServicio {
 
     public Usuario guardar(Usuario usuario){
 
-        if(usuarioRepositorio.existsByUsernameBoolean(usuario.getUsername()))
+        if(usuarioRepositorio.existsByUsername(usuario.getUsername()).isPresent())
             throw new ExcepcionUsuario("Ya existe  ese nombre de usuario");
 
         if(usuarioRepositorio.existsByEmail(usuario.getEmail()))
