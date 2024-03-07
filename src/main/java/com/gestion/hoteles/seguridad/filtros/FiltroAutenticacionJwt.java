@@ -47,11 +47,14 @@ public class FiltroAutenticacionJwt extends UsernamePasswordAuthenticationFilter
         try {
             usuario= new ObjectMapper().readValue(request.getInputStream(), Usuario.class);
             username= usuario.getUsername();
-            password=usuario.getPassword();
+            password= usuario.getPassword();
 
-        } catch(IOException e){
-
-            throw  new RuntimeException(e);
+        } catch (StreamReadException e) {
+            throw new RuntimeException(e);
+        } catch (DatabindException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
 
@@ -79,7 +82,7 @@ public class FiltroAutenticacionJwt extends UsernamePasswordAuthenticationFilter
         String token = jwtUtils.generarTokenAcceso(user.getUsername());
 
         //Respondo a la solicitud del token
-        response.addHeader("Autorizacion", token);
+        response.addHeader("Autorizathion", token);
 
         Map<String, Object> httpResponse = new HashMap<>();
         httpResponse.put("token", token);

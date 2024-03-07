@@ -33,7 +33,7 @@ public class ConfiguracionSeguridad {
     @Autowired
     JwtUtils jwtUtils;
 
-    FiltroAutenticacionJwt filtroAutenticacionJwt=new FiltroAutenticacionJwt(jwtUtils);
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
@@ -62,13 +62,17 @@ public class ConfiguracionSeguridad {
 
 
 
+
+        FiltroAutenticacionJwt filtroAutenticacionJwt=new FiltroAutenticacionJwt(jwtUtils);
         filtroAutenticacionJwt.setAuthenticationManager(authenticationManager);
+        //filtroAutenticacionJwt.setFilterProcessesUrl("/login");
+
 
                             //COMPORTAMIENTO DE ACESO A ENDPOINTS y Autenticacion
         return httpSecurity
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(config -> config.disable())//.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/usuario/lista").permitAll(); //endpoint publico
+                    auth.requestMatchers("/login").permitAll(); //endpoint publico
                     auth.anyRequest().authenticated(); //cualquier otro sera autenticado
                 })
                 .sessionManagement(sesion -> {
@@ -121,8 +125,6 @@ public class ConfiguracionSeguridad {
     @Bean
     AuthenticationManager authenticationManager(HttpSecurity httpSecurity,
                                                 PasswordEncoder passwordEncoder) throws Exception {
-
-
 
         return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(usuarioDetallesServ)
