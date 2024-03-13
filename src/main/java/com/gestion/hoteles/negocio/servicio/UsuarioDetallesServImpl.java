@@ -25,7 +25,7 @@ public class UsuarioDetallesServImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Usuario usuario= usuarioRepositorio.existsByUsername(username)
+        Usuario usuario= usuarioRepositorio.findByUsername(username)
                 .orElseThrow(()-> new UsernameNotFoundException("El usuario ".concat(username)+ "no existe."));
 
         Collection<? extends GrantedAuthority> authorities=usuario.getRoles()

@@ -1,4 +1,4 @@
-package com.gestion.hoteles.excepciones;
+package com.gestion.hoteles.excepciones;//package com.gestion.hoteles.excepciones;/*
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,5 +13,17 @@ public class CustomExceptionHandler {
     public ResponseEntity<String> handleCustomException(ExcepcionUsuario ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handlerArgumentException(IllegalArgumentException ex)
+    {
+        return new ResponseEntity<String>(ex.getMessage(),HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handlerRuntimeException(RuntimeException ex)
+    {
+        return new ResponseEntity<String>(ex.getMessage(),HttpStatus.BAD_GATEWAY);
     }
 }

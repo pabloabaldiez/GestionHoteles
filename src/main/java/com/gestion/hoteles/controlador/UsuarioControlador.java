@@ -5,6 +5,7 @@ import com.gestion.hoteles.dominio.entidad.EntidadRoles;
 import com.gestion.hoteles.dominio.entidad.RolEnum;
 import com.gestion.hoteles.dominio.entidad.Usuario;
 import com.gestion.hoteles.negocio.servicio.UsuarioServicio;
+import com.gestion.hoteles.persistencia.UsuarioRepositorio;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/usuario")
 public class UsuarioControlador {
 
+
+    @Autowired
+    UsuarioRepositorio usuarioRepositorio;
     @Autowired
     UsuarioServicio servicio;
 
@@ -40,7 +44,7 @@ public class UsuarioControlador {
 
         Usuario usuario =  Usuario.builder()
                 .username(usuarioDTO.getUsername())
-                .password(passwordEncoder.encode(usuarioDTO.getUsername()))
+                .password(passwordEncoder.encode(usuarioDTO.getPassword()))
                 .email(usuarioDTO.getEmail())
                 .nombre(usuarioDTO.getNombre())
                 .apellido(usuarioDTO.getApellido())
@@ -50,21 +54,21 @@ public class UsuarioControlador {
 
         servicio.guardar(usuario);
 
-        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+        return ResponseEntity.ok(usuario);
     }
 
 
-    @DeleteMapping("/eliminar")
+    /*@DeleteMapping("/eliminar")
     public String eliminarUsuario(@RequestParam String id){
 
         servicio.eliminaUsuario(Integer.parseInt(id));
 
         return "Se ha eliminado el usuario con id ".concat(id);
 
-    }
+    }*/
 
 
-    @GetMapping("/lista")
+   @GetMapping("/lista")
     public ResponseEntity<List<Usuario>> lista() {
 
         List<Usuario> lista = servicio.listaUsuario();

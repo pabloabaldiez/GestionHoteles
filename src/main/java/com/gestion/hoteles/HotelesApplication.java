@@ -27,7 +27,7 @@ public class HotelesApplication {
 		PasswordEncoder passwordEncoder;
 
 		@Autowired
-	UsuarioRepositorio usuarioRepositorio;
+		UsuarioRepositorio usuarioRepositorio;
 
 		@Bean
 		CommandLineRunner init(){
@@ -43,7 +43,7 @@ public class HotelesApplication {
 						.build();
 
 
-				usuarioRepositorio.save(usuario);
+
 
 				Usuario usuario2= Usuario.builder()
 						.email("paula@gmail.com")
@@ -54,7 +54,7 @@ public class HotelesApplication {
 								.build()))
 						.build();
 
-				usuarioRepositorio.save(usuario2);
+
 
 
 				Usuario usuario3= Usuario.builder()
@@ -66,6 +66,9 @@ public class HotelesApplication {
 								.build()))
 						.build();
 
+
+				usuarioRepositorio.save(usuario);
+				usuarioRepositorio.save(usuario2);
 				usuarioRepositorio.save(usuario3);
 
 			};

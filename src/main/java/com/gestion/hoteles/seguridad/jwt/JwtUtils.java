@@ -26,32 +26,32 @@ public class JwtUtils {
 
     //METODO QUE GENERA EL TOKEN DE ACCESO
 
-    public String generarTokenAcceso(String username){
+    public String generateAccesToken(String username){
         return Jwts.builder()
                 .setSubject(username)  //Envio el sujeto, el usuario.
                 .setIssuedAt(new Date(System.currentTimeMillis())) //Fecha de creacion del token
-                .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(timeExpiration))) //Fecha de expiracion, el momento de
-                                                                                                     //creacion sumado a el tiempo de expiracion
-                .signWith(obtenerFirma(), SignatureAlgorithm.HS256) //firma y algoritmo de encriptacion
+                .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(timeExpiration)))
+                .signWith(getSignatureKey(), SignatureAlgorithm.HS256) //firma y algoritmo de encriptacion
                 .compact();
            }
 
    //Obtener firma del Token
 
-    public Key obtenerFirma(){
+    public Key getSignatureKey(){
 
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        byte[] keyBytes = Decoders.BASE64.decode(this.secretKey);
 
         return Keys.hmacShaKeyFor(keyBytes);
-        }
+    }
 
 
         //Valido el token, si suelta una excepcion es que la firma es incorecta
-    public boolean validarToken(String token){
+    public boolean isTokenValid(String token){
 
         try {
 
-            Jwts.parserBuilder()  //Decodifica el token. Lo lee.
+            Jwts.parserBuilder()//Decodifica el token. Lo lee.
+                     .setSigningKey(getSignatureKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -67,9 +67,10 @@ public class JwtUtils {
 
 
     //Recibo el Payload, obtengo todos los Claims
-    public Claims extraerClaims(String token){
+    public Claims extractAllClaims(String token){
 
             return  Jwts.parserBuilder()  //Decodifica el token. Lo lee.
+                    .setSigningKey(getSignatureKey())
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
@@ -78,17 +79,17 @@ public class JwtUtils {
     }
 
     //Obtener un solo CLAIM, este metodo esta hecho para devolver un valor de cualquier tipo
-    public <T> T obtenerUnClaim(String token, Function<Claims, T> claimsTFunction){
+    public <T> T getClaim(String token, Function<Claims, T> claimsTFunction){
 
-            Claims claims = extraerClaims(token);
+            Claims claims = extractAllClaims(token);
             return claimsTFunction.apply(claims);
 
     }
 
     //Obtener el username del token
 
-    public String getUserName(String token){
-        return obtenerUnClaim(token, Claims::getSubject);
+    public String getUsernameFromToken(String token){
+        return getClaim(token, Claims::getSubject);
     }
 
 }

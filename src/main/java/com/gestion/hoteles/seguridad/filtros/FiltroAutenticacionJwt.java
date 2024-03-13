@@ -9,7 +9,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,6 +27,7 @@ public class FiltroAutenticacionJwt extends UsernamePasswordAuthenticationFilter
     private JwtUtils jwtUtils;
 
     public FiltroAutenticacionJwt(JwtUtils jwtUtils){
+
         this.jwtUtils=jwtUtils;
     };
 
@@ -58,6 +58,7 @@ public class FiltroAutenticacionJwt extends UsernamePasswordAuthenticationFilter
         }
 
 
+
         //Con esto me autentico en la app
         UsernamePasswordAuthenticationToken tokenAutenticacion =
                                         new UsernamePasswordAuthenticationToken(username, password);
@@ -76,17 +77,17 @@ public class FiltroAutenticacionJwt extends UsernamePasswordAuthenticationFilter
                                             Authentication authResult) throws IOException, ServletException {
 
         //Este es el objeto user que viene con Spring Security
-        //Aca obtenemos el objeto que tiene todos los detalles del usuario.
+        //Aca obtenemos el objeto que tiene todos los detalles del usuario
         User user= (User) authResult.getPrincipal();
 
-        String token = jwtUtils.generarTokenAcceso(user.getUsername());
+        String token = jwtUtils.generateAccesToken(user.getUsername());
 
         //Respondo a la solicitud del token
-        response.addHeader("Autorizathion", token);
+        response.addHeader("Authorization", token);
 
         Map<String, Object> httpResponse = new HashMap<>();
         httpResponse.put("token", token);
-        httpResponse.put("Mensaje", "Autenticacion correcta");
+        httpResponse.put("Message", "Autenticacion correcta");
         httpResponse.put("Username", user.getUsername());
 
         //Transformo y envio como respuesta el Map anterior pero en Json
