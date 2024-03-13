@@ -13,11 +13,13 @@ import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.session.SessionInformation;
 //import org.springframework.security.core.session.SessionRegistry;
 //import org.springframework.security.core.userdetails.User;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/usuario")
@@ -28,12 +30,11 @@ public class UsuarioControlador {
     UsuarioRepositorio usuarioRepositorio;
     @Autowired
     UsuarioServicio servicio;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/guardar")
-    public ResponseEntity<Usuario> guardarUsuario2(@Valid @RequestBody UsuarioDTO usuarioDTO){
+    public ResponseEntity<Usuario> guardarUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO){
 
         Set<EntidadRoles> rolesUsuario = usuarioDTO.getRoles().stream()
                 .map(rol -> EntidadRoles.builder()
@@ -58,14 +59,15 @@ public class UsuarioControlador {
     }
 
 
-    /*@DeleteMapping("/eliminar")
+    @DeleteMapping("/eliminar")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public String eliminarUsuario(@RequestParam String id){
 
         servicio.eliminaUsuario(Integer.parseInt(id));
 
         return "Se ha eliminado el usuario con id ".concat(id);
 
-    }*/
+    }
 
 
    @GetMapping("/lista")
@@ -79,24 +81,6 @@ public class UsuarioControlador {
         return new ResponseEntity<List<Usuario>>(lista, HttpStatus.OK);
     }
 
-    @GetMapping("/busqueda-id/{id}")
-    public ResponseEntity<Usuario> busquedaPorId(@PathVariable("id")int id){
-
-        Usuario usuario =servicio.buscaUsuarioPorId(id);
-
-        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
-    }
-
-    @GetMapping("/busqueda-dni/{dni}")
-    public ResponseEntity<Usuario> busquedaPorDni(@PathVariable("dni")int dni){
-
-        Usuario usuario =servicio.buscaUsuarioPorDni(dni);
-
-        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
-    }
-
-
-    //***TESTEOS DE SEGURIDAD***//
 
 
     //TESTEOS DE SEGURIDAD

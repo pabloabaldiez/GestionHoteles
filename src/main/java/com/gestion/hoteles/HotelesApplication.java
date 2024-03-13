@@ -62,7 +62,7 @@ public class HotelesApplication {
 						.username("limon")
 						.password(passwordEncoder.encode("123"))
 						.roles(Set.of(EntidadRoles.builder()
-								.tiposRol(RolEnum.valueOf(RolEnum.INVITADO.name()))
+								.tiposRol(RolEnum.valueOf(RolEnum.USUARIO.name()))
 								.build()))
 						.build();
 
