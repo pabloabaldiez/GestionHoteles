@@ -69,7 +69,7 @@ public class ConfiguracionSeguridad  {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/usuario/guardar").permitAll();
-                    auth.requestMatchers("/usuario/lista").permitAll();//endpoint publico
+                    auth.requestMatchers("/usuario/login").permitAll();//endpoint publico
                     auth.requestMatchers("accesAdmin").hasRole("ADMIN");
                     auth.anyRequest().authenticated(); //cualquier otro sera autenticado
                 }).userDetailsService(usuarioDetallesServ)

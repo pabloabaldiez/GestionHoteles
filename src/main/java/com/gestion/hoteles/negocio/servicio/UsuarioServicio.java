@@ -4,6 +4,7 @@ import com.gestion.hoteles.dominio.entidad.Usuario;
 import com.gestion.hoteles.excepciones.ExcepcionUsuario;
 import com.gestion.hoteles.persistencia.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +33,8 @@ public class UsuarioServicio {
 
     }
 
+
+
     public List<Usuario> listaUsuario(){
 
         if(usuarioRepositorio.findAll().isEmpty())
@@ -40,35 +43,28 @@ public class UsuarioServicio {
         return usuarioRepositorio.findAll();
     }
 
-    public Usuario buscaUsuarioPorId(int id){
 
-        Usuario usuario =usuarioRepositorio.findById(id).orElse(null);
+    public Usuario buscaUsuarioPorId(int id) {
 
-        if(usuario ==null)
+        Usuario usuario = usuarioRepositorio.findById(id).orElse(null);
+
+        if (usuario == null)
             throw new ExcepcionUsuario("No existe un usuario con ese id");
 
-        return usuario;
+        return usuario;}
+
+
+    public void eliminaUsuario(int id){
+
+        try {
+            usuarioRepositorio.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ExcepcionUsuario("El usuario con id: " + id + " no fue encontrado");
+
+        }
     }
 
-    public Usuario buscaUsuarioPorDni(int dni){
-
-        Usuario usuario = usuarioRepositorio.findByDni(dni).orElseThrow(() -> new ExcepcionUsuario("No existe un usuario con ese DNI"));
-
-
-        return usuario;
-    }
-
-
-
-    public void eliminaUsuario(int id) {
-
-        usuarioRepositorio.deleteById(id);
 
     }
 
 
-
-
-
-
-}
