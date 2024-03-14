@@ -99,7 +99,7 @@ public class FiltroAutenticacionJwt extends UsernamePasswordAuthenticationFilter
         //Cual va a ser el contenido de la respuesta
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        //Para garantizar que se escriba bientodo el contenido
+        //Para garantizar que se escriba bien todo el contenido
         response.getWriter().flush();
 
         super.successfulAuthentication(request, response, chain, authResult);
