@@ -25,10 +25,6 @@ public class UsuarioServicio {
         if(usuarioRepositorio.existsByEmail(usuario.getEmail()))
             throw new ExcepcionUsuario("Ya existe ese email");
 
-        if(usuarioRepositorio.existsByDni(usuario.getDni()))
-            throw new ExcepcionUsuario("Ya existe ese DNI");
-
-
         return usuarioRepositorio.save(usuario);
 
     }
@@ -59,6 +55,7 @@ public class UsuarioServicio {
         try {
             usuarioRepositorio.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
+
             throw new ExcepcionUsuario("El usuario con id: " + id + " no fue encontrado");
 
         }

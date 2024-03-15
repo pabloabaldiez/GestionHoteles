@@ -70,7 +70,7 @@ public class ConfiguracionSeguridad  {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/usuario/guardar").permitAll();
                     auth.requestMatchers("/usuario/login").permitAll();//endpoint publico
-                    auth.requestMatchers("accesAdmin").hasRole("ADMIN");
+                    auth.requestMatchers("/accesAdmin", "/sesion").hasRole("ADMIN");
                     auth.anyRequest().authenticated(); //cualquier otro sera autenticado
                 }).userDetailsService(usuarioDetallesServ)
                 .exceptionHandling(e->e.accessDeniedHandler(customAccesDeniedHandler)

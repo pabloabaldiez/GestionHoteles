@@ -43,14 +43,11 @@ public class Usuario {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "dni")
-    private String dni;   //CAMBIAR A STRING
 
 
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = EntidadRoles.class, cascade = CascadeType.PERSIST)
     @JoinTable(name = "usuario_roles",     //Esta es la tabla intermedia, la normalizacion.
             joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"))     //claves foraneas de las dos entidades
-
     private Set<EntidadRoles> roles;
 
 }

@@ -11,9 +11,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.core.session.SessionInformation;
-//import org.springframework.security.core.session.SessionRegistry;
-//import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -60,7 +60,6 @@ public class UsuarioControlador {
                 .email(usuarioDTO.getEmail())
                 .nombre(usuarioDTO.getNombre())
                 .apellido(usuarioDTO.getApellido())
-                .dni(usuarioDTO.getDni())
                 .roles(rolesUsuario)
                 .build();
 
@@ -113,9 +112,8 @@ public class UsuarioControlador {
 
 
 
-    //TESTEOS DE SEGURIDAD
-    /*@Autowired
->>>>>>> estructura-y-bbdd
+
+    @Autowired
     private SessionRegistry sessionRegistry;
 
     @GetMapping("/sesion")
@@ -143,6 +141,6 @@ public class UsuarioControlador {
         response.put("user", user);
 
         return ResponseEntity.ok(response);
-    }*/
+    }
 
 }
