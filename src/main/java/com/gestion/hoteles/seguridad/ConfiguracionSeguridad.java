@@ -87,10 +87,10 @@ public class ConfiguracionSeguridad  {
 
 
 
-   /* //Al iniciar sesion me redirige a este endpoint
+
     public AuthenticationSuccessHandler successHandler() {
         return ((req, response, authentication) -> {
-            response.sendRedirect("/usuario/sesion");
+            response.sendRedirect("/usuario/lista");
         });
     }
 
@@ -98,7 +98,7 @@ public class ConfiguracionSeguridad  {
     @Bean //ESTE METODO me ayuda a recuperar los datos de la sesion
     public SessionRegistry sessionRegistry(){
         return new SessionRegistryImpl();
-    }*/
+    }
 
 
     //Usuario de acceso con permisos para la aplicacion
