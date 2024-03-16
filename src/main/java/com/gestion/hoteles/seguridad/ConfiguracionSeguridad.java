@@ -72,7 +72,12 @@ public class ConfiguracionSeguridad  {
                     auth.requestMatchers("/usuario/login").permitAll();//endpoint publico
                     auth.requestMatchers("/accesAdmin", "/sesion").hasRole("ADMIN");
                     auth.anyRequest().authenticated(); //cualquier otro sera autenticado
-                }).userDetailsService(usuarioDetallesServ)
+                })
+                .formLogin()
+                    .loginPage("/login")
+                    .successHandler(successHandler())
+                .and()
+                .userDetailsService(usuarioDetallesServ)
                 .exceptionHandling(e->e.accessDeniedHandler(customAccesDeniedHandler)
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .sessionManagement(sesion -> {
@@ -80,6 +85,7 @@ public class ConfiguracionSeguridad  {
                 })
                 .addFilter(filtroAutenticacionJwt)//Reemplazo el .httpBasic().and()
                 .addFilterBefore(filtroAutorizacionJwt, UsernamePasswordAuthenticationFilter.class)
+
                 .build();
 
     }
