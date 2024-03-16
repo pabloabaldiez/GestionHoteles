@@ -84,8 +84,8 @@ public class ConfiguracionSeguridad  {
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
 
                 .sessionManagement(sesion -> {
-                    sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-                    sesion.invalidSessionUrl("/login")
+                    sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                            .invalidSessionUrl("/login")
                             .maximumSessions(1)
                             .expiredUrl("/login")
                             .sessionRegistry(sessionRegistry())
@@ -95,7 +95,6 @@ public class ConfiguracionSeguridad  {
                 })
                 .addFilter(filtroAutenticacionJwt)//Reemplazo el .httpBasic().and()
                 .addFilterBefore(filtroAutorizacionJwt, UsernamePasswordAuthenticationFilter.class)
-
                 .build();
 
     }
