@@ -73,15 +73,25 @@ public class ConfiguracionSeguridad  {
                     auth.requestMatchers("/accesAdmin", "/sesion").hasRole("ADMIN");
                     auth.anyRequest().authenticated(); //cualquier otro sera autenticado
                 })
-                .formLogin()
-                    .loginPage("/login")
-                    .successHandler(successHandler())
+
+                .formLogin().successHandler(successHandler())
+
                 .and()
+
                 .userDetailsService(usuarioDetallesServ)
+
                 .exceptionHandling(e->e.accessDeniedHandler(customAccesDeniedHandler)
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+
                 .sessionManagement(sesion -> {
                     sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                    sesion.invalidSessionUrl("/login")
+                            .maximumSessions(1)
+                            .expiredUrl("/login")
+                            .sessionRegistry(sessionRegistry())
+                            .and()
+                            .sessionFixation()
+                            .migrateSession();
                 })
                 .addFilter(filtroAutenticacionJwt)//Reemplazo el .httpBasic().and()
                 .addFilterBefore(filtroAutorizacionJwt, UsernamePasswordAuthenticationFilter.class)
